@@ -1,0 +1,62 @@
+{% extends 'layout.html' %}
+
+{% block title %}Booktifier/{{ author.first_name }} {{ author.last_name }}{% endblock %}
+{% block content %}
+
+<div class="container-fluid" style="margin-top: 7%;">
+   <div style="width:80%; min-height: 90%;  margin: 0 auto; background-color: #FFEBCD; padding: 50px;  border-radius: 25px;  box-shadow: 2px 2px 2px #CBA87A; display: block;">
+      <div style="float:left; padding-top: 1%; padding-right: 5%">
+          <img src="{{author.picture.url}}" alt="pic" style="width: 200px">
+      </div>
+      <div>
+        <h2 style = "color: #7C6443; font-size: 1.7em;">{{ author.first_name }} {{ author.last_name }}</h2>
+        <hr>
+        <p style = "color: black; margin-bottom: -2px; font-size: 0.9em;"><b><i>Date of birth:</i></b> {{author.birth_date}}</p>
+        <p style = "color: black; margin-bottom: -2px; font-size: 0.9em;"><b><i>Place of birth:</i></b> {{author.birth_place}}</p>
+        <p style = "color: black; margin-bottom: -2px; font-size: 0.9em;"><b><i>Website:</i></b><a style = "text-decoration: none; font-size: 0.9em;" href = "{{ author.website}}">{{author.website}}</a></p>
+        <p style = "color: black; margin-bottom: -2px; font-size: 0.9em;"><b><i>Sign:</i></b> {{author.sign}}</p>
+        <hr>
+        <p style = "color: black; font-size: 0.9em; text-align: justify;"> {{author.description}}</p>
+        <hr>
+        <div>
+          <p style = "color: black; margin-bottom: -2px; font-size: 1em;"><b><i>Books written:</i></b></p>
+          <br>
+          <ul>
+            {% for book in author.Books.all %}
+            <li style = "color: black; font-size: 0.9em; list-style-type: none;">
+                <a style = "color: black; font-size: 0.9em; text-decoration: none;" href = "/book/{{ book.pk }}/">{{ book.title }}</a>
+            </li>
+                {% endfor %}
+           </ul>
+        </div>
+      </div>
+   </div>
+</div>
+<!--
+<div id = "start" style = "margin-top: 75px;">
+<h2  style = "font-size: 5em;">{{ author.first_name }} {{ author.last_name}}</h2>
+
+<p style = "font-size: 3em; color: black;">Date of birth: {{ author.birth_date }}</p>
+
+<div class="pull-right">
+  <img src="{{author.picture.url}}" alt="pic" style="width: 200px">
+</div>
+<div>
+    <h4 style = "font-size: 4em;">Books written:</h4>
+      <ul>
+       	{% for book in author.Books.all %}
+        <li style = "color: black; font-size: 3em;"><div style="display: inline-block;">
+       		{{ book.title }}
+       		<a href="/book/{{ book.pk }}/">
+                    <button class="buton">
+                        Details
+                    </button>
+          </a>
+          </div></li>
+
+       {% endfor %}
+  </ul>
+</div>
+</div>
+-->
+{% endblock %}

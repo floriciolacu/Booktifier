@@ -1,0 +1,84 @@
+{% extends 'layout.html' %}
+
+{% block title %}Booktifier{% endblock %}
+
+{% block content %}
+
+<div style = "margin-top: 7%;">
+{% for book in items %}
+    <div>
+        <div style = "background-color: #FFEBCD; border-radius: 25px;  box-shadow: 2px 2px 2px #CBA87A; margin: 0 auto; width:80%; min-height: 90%; padding: 25px; margin-bottom: 3%; display: inline-block; margin-left: 100px;">
+        <div style="float:left; padding-top: 1%; padding-left: 5%;">
+          <img src="{{book.cover.url}}" alt="pic" style="width: 200px">
+        </div>
+        <div style = "text-align: center; margin-top: 40px;">
+            <h3 style = "color: #7C6443; text-align: center">{{book.title}}</h3>
+            {% for author in book.authors.all %}
+            <h3 style = "color: #7C6443; text-align: center; font-size: 1.2em;">{{ author.first_name}} {{ author.last_name}}</h3>
+            {% endfor %}
+            <div style = "text-align: center; margin-top: 10px;">
+                <p style = "color: black; margin-bottom: -10px;"><b><i>Genre:</i></b> {{book.get_genre_display}}</p>
+            </div>
+            <div style = "text-align: center; margin-top: 10px;">
+                <p style = "color: black; margin-bottom: -10px;"><b><i>Publishing House:</i></b> {{book.publishing_house}}</p>
+            </div>
+            <div style = "text-align: center; margin-top: 10px;">
+                <p style = "color: black;"><b><i>Average rating:</i></b> {{book.score}}</p>
+            </div>
+            <a class="btn btn-light btn-xl js-scroll-trigger" style=" background-color: #7C6443; color: white; font-size: 0.8em" href = "/book/{{ book.pk }}/">
+                Details
+            </a>
+            {% if user.is_superuser %}
+            <a class="btn btn-light btn-xl js-scroll-trigger" style=" background-color: #7C6443; color: white; font-size: 0.8em" href = "/book/{{ book.pk }}/update">
+                Update
+            </a>
+            <a class="btn btn-light btn-xl js-scroll-trigger" style=" background-color: #7C6443; color: white; font-size: 0.8em" href = "/book/{{ book.pk }}/delete">
+                Delete
+            </a>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+{% endfor %}
+</div>
+<!--
+{% for book in items %}
+<div id = "start" style = "padding-bottom: 200px;">
+    <div style="float:left; padding: 30px">
+        <img src="{{book.cover.url}}" alt="pic" style="width: 200px">
+    </div>
+    <div>
+        <h3 style = "font-size: 3em;">{{book.title}}</h3>
+        {% for author in book.authors.all %}
+        <h3 style = "font-size: 2em;">{{ author.first_name}} {{ author.last_name}}</h3>
+        {% endfor %}
+        <div style="float: left;">
+          <p style = "font-size: 2em; color: black;">Genre: {{ book.get_genre_display }}</p>
+          <p style = "font-size: 2em; color: black;">Publishing House: {{ book.publishing_house }}</p>
+            <p style = "font-size: 2em; color: black;">{{book.appearance_date}}</p>
+            <a href="/book/{{ book.pk }}/" style = "color: black; font-size: 1.5em;">
+                <button class="buton"  style="margin-top: 15px; padding: 10px;">
+                    Details
+                </button>
+            </a>
+        {% if user.is_superuser %}
+        <a href="/book/{{ book.pk }}/update" style = "color: black; font-size: 1.5em;">
+             <button class="buton"  style="margin-top: 15px; padding:10px;">
+                 Update
+             </button>
+        </a>
+        <a href="/book/{{ book.pk }}/delete" style = "color: black; font-size: 1.5em;">
+             <button class="buton"  style="margin-top: 15px; padding:10px;">
+                 Delete
+             </button>
+        </a>
+        {% endif %}
+        </div>
+        <div style="float: right;">
+            <h3 style="color: #64993F;">{{book.score}}</h3>
+        </div>
+    </div>
+</div>
+{% endfor %}
+-->
+{% endblock %}

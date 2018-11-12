@@ -1,0 +1,26 @@
+{% extends 'layout.html' %} {% block title %}Delete Book{% endblock %} {% block content %}
+
+<div style = "text-align: center;">
+	<h3 style = "margin-top: 15%; color: white;"> Are you sure you want to delete "{{ book }}" ? </h3>
+	<br>
+	<br>
+<form method="POST" enctype="multipart/formdata" class="form">
+    {% csrf_token %}
+    <a class="btn btn-light btn-xl js-scroll-trigger" style=" background-color: #7C6443; color: white; font-size: 0.8em;" href="{% url 'book_detail' pk=book.pk %}">
+            Cancel
+    </a>
+    <button type="submit" class="btn btn-primary btn-xl js-scroll-trigger" style="font-size: 0.8em;min-width: 10%; margin: 10px; background-color: #7C6443;">Delete</button>
+</form>
+</div>
+<!--
+<p>Are you sure you want to delete "{{ book }}" ?</p>
+<form method="POST" enctype="multipart/formdata" class="form">
+    {% csrf_token %}
+    <a href={% url 'book_detail' pk=book.pk %} style = "text-decoration: none; margin: 5px; color: #D2B48C;">
+            Cancel
+    </a>
+    <button type="submit" class = "buton" style = "border-radius: 5px; padding: 10px;">Delete</button>
+</form>
+-->
+{% endblock %}
+

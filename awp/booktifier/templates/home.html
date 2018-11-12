@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+{% block title %}Booktifier{% endblock %}
+
+{% block content %}
+
+    <header class="masthead text-center text-white d-flex">
+      <div class="container my-auto">
+        <div class="row">
+          <div class="col-lg-10 mx-auto">
+            <h1 class="text-uppercase" style = "font-size: 6em;">
+              <strong>Booktifier</strong>
+            </h1>
+          </div>
+          </div>
+            <div class="col-lg-8 mx-auto" id = "quote">
+      			<p style = "font-size: 1em;"> “A room without books is like a body without a soul.”</p>
+        		<p style = "font-size: 1em;">	― Marcus Tullius Cicero </p>
+    		</div>
+        <div style = "margin-top: 2em;">
+           <a class="btn btn-primary btn-xl js-scroll-trigger" style="margin: 10px; background-color: #7C6443;" href="upload">Find a book</a>
+        </div>
+        </div>
+    </header>
+{% endblock %}

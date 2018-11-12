@@ -1,0 +1,81 @@
+
+{% extends 'layout.html' %} 
+{% block title %}Sign Up{% endblock %} 
+{% block content %}
+{% load widget_tweaks %}
+<link rel="stylesheet" href="/static/css/signup.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
+<link rel="stylesheet" href="/static/css/login.css">
+<div class="vertical-center" style="margin-top: 12%;">
+<div class="container">
+   <div class="row">
+      <div class="col-md-12">
+            <div class="centered">
+            <br>
+            <br>
+               <h1>Sign Up</h1>
+               <br>
+               <br>
+            </div>
+            <form method="post">
+               {% csrf_token %}
+
+               {% for hidden_field in form.hidden_fields %}
+               {{ hidden_field }}
+               {% endfor %}
+               {% if form.non_field_errors %}
+               <div class="alert alert-danger" role="alert">
+                  {% for error in form.non_field_errors %}
+                  {{ error }}
+                  {% endfor %}
+               </div>
+               {% endif %}
+               {% for field in form.visible_fields %}
+               <div class="form-group">
+                <div class="row" style="margin:20px;">
+                  <div class="col-md-3">
+                  {{ field.label_tag }}
+                </div>
+                <div class="col-md-9">
+                  {% if fiels.label_tag == "Preferences:" %}
+                      {% render_field field class="custom-control custom-checkbox" %}
+                  {% else %}
+                    {% if form.is_bound %}
+                    {% if field.errors %}
+                    {% render_field field class="form-control is-invalid" %}
+                  </div>
+                    {% for error in field.errors %}
+                    <div class="invalid-feedback">
+                       {{ error }}
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    {% render_field field class="form-control is-valid" %}
+                    {% endif %}
+                    {% else %}
+                    {% render_field field class="form-control" %}
+                    {% endif %}
+                   {% endif %} 
+                   {% if field.help_text %}
+                  <small class="form-text text-white">{{ field.help_text|safe }}</small>
+                  {% endif %} 
+
+                  {% for error in field.errors %}
+               
+                   <div style="width: 100%; text-align: center; color: red; text-shadow: 2px 2px 4px #000000;">
+                     <p style="color: red">{{ error }}</p>
+                   </div>
+                  {% endfor %}
+                
+                </div>
+               </div>
+               {% endfor %}
+               <div style="width: 100%; text-align: center;">
+                  <button type="submit" class="btn btn-primary btn-xl js-scroll-trigger" style="min-width: 60%; margin: 10px; background-color: #7C6443;">Register</button>
+               </div>
+            </form>
+      </div>
+   </div>
+</div>
+{% endblock %}
+

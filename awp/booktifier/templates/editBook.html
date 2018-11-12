@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+{% extends 'layout.html' %}
+
+{% block title %}Edit Book{% endblock %}
+
+{% block content %}
+
+{% load widget_tweaks %}
+<link rel="stylesheet" href="/static/css/signup.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
+<link rel="stylesheet" href="/static/css/login.css">
+ <div class="vertical-center"  style = "margin-top: 20%;">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="centered">
+            <h1>Edit Book</h1>
+            <br>
+        </div>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  {% for hidden_field in form.hidden_fields %}
+  {{ hidden_field }}
+  {% endfor %}
+  {% if form.non_field_errors %}
+  <div class="alert alert-danger" role="alert">
+      {% for error in user_form.non_field_errors %}
+      {{ error }}
+      {% endfor %}
+  </div>
+  {% endif %}
+
+  {% for field in form.visible_fields %}
+  <div class="form-group">
+      <div class="row" style="margin:20px;">
+          <div class="col-md-3">
+              {{ field.label_tag }}
+          </div>
+          <div class="col-md-9">
+              {% if fiels.label_tag == "Authors:" %}
+                  {% render_field field class="custom-control custom-checkbox" %}
+              {% else %}
+                  {% if form.is_bound %}
+                  {% if field.errors %}
+                  {% render_field field class="form-control is-invalid" %}
+          </div>
+          {% for error in field.errors %}
+          <div class="invalid-feedback">
+              {{ error }}
+          </div>
+          {% endfor %}
+                    {% else %}
+                    {% render_field field class="form-control is-valid" %}
+                    {% endif %}
+                    {% else %}
+                    {% render_field field class="form-control" %}
+                    {% endif %}
+                   {% endif %} 
+                   {% if field.help_text %}
+                   <small class="form-text text-white">{{ field.help_text|safe }}</small>
+                  {% endif %} 
+
+                  {% for error in field.errors %}
+               
+                   <div style="width: 100%; text-align: center; color: red; text-shadow: 2px 2px 4px #000000;">
+                     <p style="color: red">{{ error }}</p>
+                   </div>
+                  {% endfor %}
+                
+                </div>
+               </div>
+               {% endfor %}
+
+               <div style="width: 100%; text-align: center;">
+                  <button type="submit" class="btn btn-primary btn-xl js-scroll-trigger" style="min-width: 60%; margin: 10px; background-color: #7C6443;">Edit</button>
+               </div>
+
+</form>
+
+    </div>
+  </div>
+</div>
+
+<!--
+
+<h2>Edit Book</h2>
+
+<div id = "start">
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="id_title">Title</label>
+        <br>
+        <br>
+        <input class="form-control" id="id_name" type="text" name="title" value="{{ form.instance.title }}" maxlength="100" required/>
+    </div>
+    <div class="form-group">
+        <label for="id_date">Appearance Date</label>
+        <input class="form-control" id="id_date" type="text" name="appearance_date" value="{{ form.instance.appearance_date|date:'d/m/Y' }}" required/>
+    </div>
+    <div class="form-group">
+        <label for="id_title">Publishing House</label>
+        <br>
+        <br>
+        <input class="form-control" id="id_publishing_house" type="text" name="publishing_house" value="{{ form.instance.publishing_house }}" maxlength="100" required/>
+    </div>
+    <div class="form-group">
+        <label for="id_genre">Genre</label>
+        <select id="id_genre" required name="genre" class="form-control">
+              {% for value, display in form.fields.genre.choices %}
+              <option value="{{ value }}"
+                      {% if value == form.instance.genre %}
+                            selected
+                      {% endif %}>
+                  {{ display }}
+              </option>
+              {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="id_authors">Authors</label>
+        <select id="id_authors" name="authors" multiple  class="form-control">
+            {% for author in authors %}
+                <option value="{{ author.pk }}"
+                    {% if book_pk in author.movies_pk %}
+                        selected
+                    {% endif %}
+                >
+                    {{ author.first_name|add:' '|add:author.last_name }}
+
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="id_description">Description</label>
+        <br>
+        <br>
+        <textarea  class="form-control" id="id_description" name="description" maxlength="5000" rows="10" cols="40" required>{{ form.instance.description }}</textarea>
+    </div>
+    <br>
+    <div style="display: inline-block;">
+        <label for="id_cover">CoverPicture</label>
+        <br>
+        <br>
+        <br>
+        <input id="id_cover" type="file" name="cover"/>
+    </div>
+    <br>
+    <br>
+    <button type="submit" class="buton" style = "font-size: 1.5em; padding: 10px;">Save</button>
+</form>
+-->
+{% endblock %}

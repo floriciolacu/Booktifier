@@ -1,0 +1,29 @@
+body {
+	background: url(/static/images/header.jpg) no-repeat center center fixed; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	height: 100%;
+  	display: grid;
+}
+
+.centered{
+	text-align: center;
+}
+
+
+h1, label{
+	color: white;
+}
+
+h1{
+	text-shadow: 2px 2px 4px #000000;
+}
+
+.vertical-center {
+  min-height: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}

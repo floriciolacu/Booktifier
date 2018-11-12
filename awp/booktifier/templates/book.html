@@ -1,0 +1,238 @@
+{% extends 'layout.html' %}
+
+{% block title %}Booktifier/{{ book.title }}{% endblock %}
+
+{% block content %}
+
+<style>
+	.rating {
+  		unicode-bidi: bidi-override;
+  		direction: rtl;
+	}
+	.rating > a {
+  		display: inline-block;
+  		position: relative;
+  		width: 1.1em;
+  		text-decoration: none;
+	}
+	.rating > a:hover:before,
+	.rating > a:hover ~ a:before {
+   		content: "\2605";
+   		position: absolute;
+	}
+	.element:not(:first-child) {
+		padding-left: 39px;
+	}
+	.limit{
+    	width: 100%;
+    	word-wrap: break-word;
+    	white-space: pre-line;
+    	display: block;
+	}
+</style>
+
+<div class="container-fluid" style="margin-top: 7%;">
+   <div style="width:80%; min-height: 100%;  margin: 0 auto; background-color: #FFEBCD; padding: 50px;  border-radius: 25px;  box-shadow: 2px 2px 2px #CBA87A; display: block;">
+   		<div style="float:left; padding-top: 1%; padding-right: 5%">
+          <img src="{{book.cover.url}}" alt="pic" style="width: 200px">
+          <br>
+          <br>
+          <div style = "text-align: center;">
+          {% if request.user.is_authenticated %}
+            <a class="btn btn-light btn-xl js-scroll-trigger" style=" background-color: #7C6443; color: white; font-size: 0.7em;"href="favorite/{{user.pk}}">
+                {% if book not in request.user.buser.favourites.all %}
+                  Add to favorites
+                {% else %}
+                  Remove from favorites
+                {% endif %}
+            </a>
+            {% endif %}
+            <br>
+            <br>
+            {% if request.user.is_authenticated %}
+            <a class="btn btn-light btn-xl js-scroll-trigger" style=" background-color: #7C6443; color: white; font-size: 0.7em;" href="read/{{user.pk}}">
+                {% if book not in request.user.buser.read.all %}
+                  Add to read books
+                {% else %}
+                  Remove from read books
+                {% endif %}
+            </a>
+            {% endif %}
+            </div>
+        </div>
+        <div style = "float: right; margin-top: -10px;">
+        <div class = "rating">
+			{% load static %}
+		  	{% if request.user.is_authenticated %}
+			<a href="voted/1">&#9734; </a>
+			<a href="voted/2">&#9734;</a>
+			<a href="voted/3">&#9734;</a>
+			<a href="voted/4">&#9734;</a>
+			<a href="voted/5">&#9734;</a>
+			<h3 style = "color: black; font-size: 1em;">{{book.score}}</h3>
+			{% endif %}
+  		</div>
+  		</div>
+  		<div>
+        <div>
+        	<h2 style = "color: #7C6443; font-size: 1.7em;">{{ book.title }}</h2>
+        	<h3 style = "color: #7C6443; font-size: 1.2em;"> by 
+        	{% for author in book.authors.all %}
+        		<a style = "color: #7C6443; font-size: 1em; text-decoration: none;" href="/author/{{ author.pk }}/">{{ author.first_name }} {{ author.last_name }}</a>
+        	{% endfor %}
+        	</h3>
+        </div>
+        <hr>
+        <p style = "color: black; margin-bottom: -2px; font-size: 0.9em;"><b><i>Genre:</i></b> {{book.get_genre_display}}</p>
+        <p style = "color: black; margin-bottom: -2px; font-size: 0.9em;"><b><i>Publishing House:</i></b> {{book.publishing_house}}</p>
+        <p style = "color: black; margin-bottom: -2px; font-size: 0.9em;"><b><i>Appearance Date:</i></b> {{book.appearance_date}}</p>
+        <hr>
+  		<div class = "limit">
+  			<p style = "color: black; font-size: 0.9em;">{{book.description}}</p>
+  		</div>
+        <div>
+        	<p style = "color: black; margin-bottom: -2px; font-size: 0.9em;"><b><i>Comments:</i></b></p>
+        	<br>
+        	<ul>
+        		{% for comment in book.comments.all %}
+        		<li style = "color: black; font-size: 0.8em; list-style-type: none;" class = "element">
+          			{{ comment.title }}
+          		<br>
+          		<p style = "color: black;"><b>{{ comment.author.get_username }}</b> {{ comment.content }} </p>
+        </li>
+
+    </ul>
+    {% empty %}
+    <p style ="color: black; font-size: 0.8em;">There are no comments yet.</p>
+    {% endfor %}
+        </div>
+        <a class="btn btn-light btn-xl js-scroll-trigger" style=" background-color: #7C6443; color: white; font-size: 0.8em;" href = 'bookcomment'>
+                Add Comment
+            </a>
+            {% if user.is_superuser %}
+            <a class="btn btn-light btn-xl js-scroll-trigger" style=" background-color: #7C6443; color: white; font-size: 0.8em;" href = "/book/{{ book.pk }}/update">
+                Update
+            </a>
+            <a class="btn btn-light btn-xl js-scroll-trigger" style=" background-color: #7C6443; color: white; font-size: 0.8em;" href = "/book/{{ book.pk }}/delete">
+                Delete
+            </a>
+            {% endif %}
+        </div>
+   </div>
+</div>
+
+<!--
+<div id = "start" style = "margin-top: 75px;">
+ <div style="float: right;">
+			{% load static %}
+		  {% if request.user.is_authenticated %}
+			<a href="voted/1"><img src = "{% static 'images/star.png' %}" height = "30" width = "30"/></a>
+			<a href="voted/2"><img src = "{% static 'images/star.png' %}" height = "30" width = "30"/></a>
+			<a href="voted/3"><img src = "{% static 'images/star.png' %}" height = "30" width = "30"/></a>
+			<a href="voted/4"><img src = "{% static 'images/star.png' %}" height = "30" width = "30"/></a>
+			<a href="voted/5"><img src = "{% static 'images/star.png' %}" height = "30" width = "30"/></a>
+			{% endif %}
+			<br>
+			<div style="float: right; font-size: 3em;">
+			     <h3 style = "color: black;">{{book.score}}</h3>
+		  </div>
+  </div>
+
+    <div class="container">
+    	<div style="text-align: center;">
+        	  <h2 style = "font-size: 5em;">{{book.title}}</h2>
+            <br>
+            {% if request.user.is_authenticated %}
+            <a href="favorite/{{user.pk}}">
+                {% if book not in request.user.buser.favourites.all %}
+                  <p style = "font-size: 3em;">Add to favorites</p>
+                {% else %}
+                  <p style = "font-size: 3em;">Remove from favorites</p>
+                {% endif %}
+            </a>
+            {% endif %}
+            {% if request.user.is_authenticated %}
+            <a href="read/{{user.pk}}">
+                {% if book not in request.user.buser.read.all %}
+                  <p style = "font-size: 3em;">Add to read books</p>
+                {% else %}
+                  <p style = "font-size: 3em;">Remove from read books</p>
+                {% endif %}
+            </a>
+            {% endif %}
+        </div>
+
+
+            <p style = "font-size: 3em; color: black;">Genre: {{ book.get_genre_display }}</p>
+            <p style = "font-size: 3em; color: black;">Appearance Date: {{book.appearance_date}} </p>
+            <p style = "font-size: 3em; color: black;">Publishing House: {{book.publishing_house}} </p>
+            <div>
+            	<img src="{{book.cover.url}}" alt="pic" style="width: 200px">
+            </div>
+
+        </div>
+        <br>
+        <br>
+        <br>
+          <div class="container">
+	        	<p style = "font-size: 3em; color: black;">{{book.description}}</p>
+        </div>
+        <div class="container">
+    <h4 style = "font-size: 4em;">Authors</h4>
+    <ul>
+       {% for author in book.authors.all %}
+            <li style = "color: black; font-size: 3em;">
+            	<div>{{ author.first_name}} {{ author.last_name}}
+            	<a href="/author/{{ author.pk }}/">
+                    <button class="buton">
+                        Details
+                    </button>
+                </a>
+                </div>
+
+            </li>
+
+        {% endfor %}
+    </ul>
+    </div>
+    <div class = "container">
+    <h4 style = "font-size: 3em";>Comments</h4>
+    <ul>
+        {% for comment in book.comments.all %}
+        <li style = "color: black; font-size: 2em;">
+          {{ comment.title }}
+          <br/>
+          Posted by {{ comment.author.get_username }}
+          <p style = "color: black"> {{ comment.content }} </p>
+        </li>
+
+    </ul>
+    {% empty %}
+    <p style ="color: black; font-size: 2em;">There are no comments yet.</p>
+    {% endfor %}
+    </div>
+          <div>
+            <a href='bookcomment'>
+                 <button class="btn-success"  style="margin-top: 15px; padding:10px;">
+                     Add Comment
+                 </button>
+            </a>
+            {% if user.is_superuser %}
+            <a href="/book/{{ book.pk }}/update">
+                 <button class="btn-success"  style="margin-top: 15px; padding:10px;">
+                     Update
+                 </button>
+            </a>
+            <a href="/book/{{ book.pk }}/delete">
+                 <button class="btn-success"  style="margin-top: 15px; padding:10px;">
+                     Delete
+                 </button>
+            </a>
+            {% endif %}
+            </div>
+
+
+    </div>
+    -->
+
+{% endblock %}

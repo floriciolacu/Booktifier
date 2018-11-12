@@ -1,0 +1,94 @@
+{% extends 'layout_no_menu.html' %}
+
+{% block title %}{% endblock %}
+
+{% block content %}
+
+{% load widget_tweaks %}
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
+<link rel="stylesheet" href="/static/css/favorite.css">
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+       <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="{% url 'home' %}"> <i class="fas fa-long-arrow-alt-left"></i> Go back to first page</a>
+            </li>
+</nav>
+
+<div class="vertical-center">
+<div class="container">
+<h2 style = "color: white; text-align: center; font-size: 1.5em;"><strong>Select the photo of the book.</strong></h2>
+<h2 style = "color: white; text-align: center; margin-bottom: 5%; font-size: 1.5em;"><strong>We will find it for you!</strong></h2>
+
+   <div class="row">
+      <div class="centered" style = "margin-left: 28%">
+	<form method="POST" enctype="multipart/form-data">
+		               {% csrf_token %}
+
+               {% for hidden_field in form.hidden_fields %}
+               {{ hidden_field }}
+               {% endfor %}
+
+               {% if form.non_field_errors %}
+               <div class="alert alert-danger" role="alert">
+                  {% for error in form.non_field_errors %}
+                  {{ error }}
+                  {% endfor %}
+               </div>
+               {% endif %}
+
+               {% for field in form.visible_fields %}
+               <div class="form-group">
+                <div class="row" style="margin:20px;">
+                  <div class="col-md-3">
+                  {{ field.label_tag }}
+                </div>
+                <div class="col-md-9">
+                  {% if fiels.label_tag == "Authors:" %}
+                    {% render_field field class="custom-control custom-checkbox" %}
+                  {% else %}
+                    {% if form.is_bound %}
+                        {% if field.errors %}
+                            {% render_field field class="form-control is-invalid" %}
+                </div>
+                            {% for error in field.errors %}
+                                <div class="invalid-feedback">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            {% render_field field class="form-control is-valid" %}
+                        {% endif %}
+                    {% else %}
+                        {% render_field field class="form-control" %}
+                    {% endif %}
+                  {% endif %} 
+
+                   {% if field.help_text %}
+                  <small class="form-text text-white">{{ field.help_text|safe }}</small>
+                  {% endif %} 
+
+                  {% for error in field.errors %}
+                   <div style="width: 100%; text-align: center; color: red; text-shadow: 2px 2px 4px #000000;">
+                     <p style="color: red">{{ error }}</p>
+                   </div>
+                  {% endfor %}
+                
+                </div>
+               </div>
+               {% endfor %}
+               <div style="width: 100%; text-align: center;">
+                  <button type="submit" class="btn btn-primary btn-xl js-scroll-trigger" style="min-width: 40%; margin: 10px; background-color: #7C6443;">Find</button>
+               </div>
+	</form>
+    <!--
+	{% for book in items %}
+	<h3 style = "margin-top: 15%; color: white;"> {{ book.title }} </h3>
+	<a class="btn btn-light btn-xl js-scroll-trigger" style=" background-color: #7C6443; color: white; font-size: 0.8em" href = "/book/{{ book.pk }}/">
+                Details
+            </a>
+	{% endfor %}
+	-->
+  </div>
+</div>
+</div>
+{% endblock %}

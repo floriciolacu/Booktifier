@@ -1,0 +1,65 @@
+{% extends 'layout.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="container-fluid" style="margin-top: 7%;">
+   <div style="width:80%; min-height: 90%;  margin: 0 auto; background-color: #FFEBCD; padding: 50px;  border-radius: 25px;  box-shadow: 2px 2px 2px #CBA87A; ">
+      <div style="text-align: center;">
+        <h2 style = "color: #7C6443;">{{ buser.user.first_name }} {{ buser.user.last_name}}' profile</h2>
+        <hr class="my-4">
+        <p style = "color: black;"><b><i>Username:</i></b> {{ buser.user.username }} </p>
+         <p style = "color: black;"><b><i>Email:</i></b> {{ buser.user.email }}</p>
+         <p style = "color: black;"> <b><i>Birth Date:</i></b> {{ buser.birth_date }} </p>
+      </div>
+      <div style="text-align: center;">
+         <hr class="my-4">
+         <div style = "color: black; font-size: 1.25em">Favourite books:</div>
+         <ul style="list-style-position: inside;">
+            {% for book in buser.favourites.all %}
+            <li style = "color: black; font-size: 0.9em">
+             {{ book.title }}
+            </li>
+            {% endfor %}
+         </ul>
+      </div>
+
+    <div style="text-align: center;">
+         <hr class="my-4">
+         <div style = "color: black; font-size: 1.25em">Read books:</div>
+         <ul style="list-style-position: inside;">
+            {% for book in buser.read.all %}
+            <li style = "color: black; font-size: 0.9em">
+             {{ book.title }}
+            </li>
+            {% endfor %}
+         </ul>
+         <a href = "/profile/{{ user.buser.pk }}/update">
+            <button class="btn btn-light btn-xl js-scroll-trigger" style="min-width: 60%; margin: 10px; background-color: #7C6443;; color: white; ">Edit profile</button>
+      </a>
+      </div>
+      </div>
+    </div>
+</div>
+
+<!--
+<div id = "start" style = "margin-top: 75px;">
+  <h2  style = "font-size: 5em;">{{ buser.user.first_name }} {{ buser.user.last_name}}' profile</h2>
+  <p style = "font-size: 2.5em; color: black;">{{ buser.user.email }}</p>
+ 	<h4 style = "font-size: 3em;">Favourite books:</h4>
+ 	{% for book in buser.favourites.all %}
+      <p style = "font-size: 2.5em; color: black;margin-left:2em;">{{ book.title }}</p>
+ 	{% endfor %}
+  <h4 style = "font-size: 3em;">Read books:</h4>
+  {% for book in buser.read.all %}
+    <p style = "font-size: 2.5em; color: black;margin-left:2em;">{{ book.title }}</p>
+  {% endfor %}
+  <a href="/profile/{{ user.buser.pk }}/update">
+       <button class="btn-success"  style="margin-top: 15px; padding:10px;">
+           Edit Profile
+       </button>
+  </a>
+</div>
+-->
+
+{% endblock %}
